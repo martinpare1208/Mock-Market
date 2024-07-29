@@ -20,6 +20,10 @@ class GetStock(commands.Cog):
     async def get_stock(self, ctx, stock_ticker) -> discord.Embed:
         #URL for stock data
         try:
+            if stock_ticker[0] != '':
+                stock_ticker = stock_ticker[1:].upper()
+            else:
+                stock_ticker = stock_ticker.upper()
             URL = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={stock_ticker}&apikey={TOKEN}'
             r = requests.get(URL)
             data = r.json()
@@ -34,11 +38,11 @@ class GetStock(commands.Cog):
 
             date_as_str = today.strftime(r"%Y-%m-%d")
             closing_price = data["Time Series (Daily)"][date_as_str]['4. close']
-            embed = discord.Embed(title=f"Closing Price of placeholder on {date_as_str}", description=f'${closing_price}')
+            embed = discord.Embed(title=f"Closing Price of ${stock_ticker} on {date_as_str}", description=f'${round(float(closing_price), 2)}')
             await ctx.respond(embed=embed)
         except Exception as err:
             print('Get Request Failed.')
-            ctx.respond('Could not get data from API. Please contact a staff member.')
+            ctx.respond('Could not get data from API. Check to see if you have a misspelling in your entry or contact a staff member if problem persists.')
             print(err)
    
 
