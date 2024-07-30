@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from typing import Final
 import discord
 import asyncio
-
+from create_db import create_db as create_database
 
 load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
@@ -14,6 +14,9 @@ intents.members = True
 bot = commands.Bot(
     command_prefix='!', intents=intents, application_id=APP_ID
 )
+
+cwd = os.getcwd()
+db_path = os.path.join(cwd, 'database.db')
 
 @bot.event
 async def on_ready():
@@ -33,11 +36,18 @@ async def load():
             pass
 
 
-
+async def db_file():
+    if os.path.isfile(db_path):
+        print('Database already created. Will not proceed with creation of DB.')
+    else:
+        print('DB not found. Executing DB Script.')
+        await create_database()
+        print('DB Successfully created!')
 
 async def main():
     async with bot:
         await load()
+        await db_file()
         await bot.start(TOKEN)
 
 asyncio.run(main())
