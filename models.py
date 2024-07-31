@@ -1,19 +1,30 @@
 import sqlalchemy as db
 import sqlalchemy.orm as orm
-from main import db_path
+from sqlalchemy.ext.declarative import declarative_base
+import os
+
+cwd = os.getcwd()
+db_path = os.path.join(cwd, 'database.db')
+engine = db.create_engine(f'sqlite:///{db_path}')
 
 
+Base = declarative_base()
 
-class Base(db.DeclarativeBase):
-    pass
-
-
-class BankAccount(db.Base):
+class BankAccount(Base):
     __tablename__ = 'bankAccount'
 
-    id = orm.mapped_column(db.Integer, primary_key = True)
+    id = orm.mapped_column(db.Integer, primary_key = True, autoincrement=True)
     money = orm.mapped_column(db.Float, nullable = False, default=0)
     username = orm.mapped_column(db.String(50), nullable = False, unique=True)
     
-    
-    
+    # def __init__(self, id, money, username):
+    #     self.id = id
+    #     self.money = money
+    #     self.username = username
+        
+        
+    # def __repr__(self):
+    #     return f'{self.id}: {self.username} Total Money: ${self.money}'
+
+#Create the tables
+Base.metadata.create_all(engine)

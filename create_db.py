@@ -1,10 +1,7 @@
 import sqlalchemy as db
 import sqlite3
 import os
-from main import db_path
 
-engine = db.create_engine(f'sqlite:///{db_path}')
-print(engine)
 
 async def create_db():
     #Set path for db file

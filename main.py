@@ -28,8 +28,6 @@ async def on_ready():
 #Load discord commands
 async def load():
     for filename in os.listdir('./cogs'):
-        # if filename.endswith('.py'):
-        #     bot.load_extension(f'cogs.{filename[:-3]}')
         try:
             if filename.endswith('.py'):
                 bot.load_extension(f'cogs.{filename[:-3]}')
@@ -38,6 +36,7 @@ async def load():
             print(f"Cog file {filename} could not be run! Going to the next cog file.")
             print(err)
             pass
+        
 
 #Check for database, otherwise create one
 async def db_file():
@@ -51,8 +50,8 @@ async def db_file():
 #entry point
 async def main():
     async with bot:
-        await load()
         await db_file()
+        await load()
         await bot.start(TOKEN)
 
 asyncio.run(main())
