@@ -17,14 +17,13 @@ class BankAccount(Base):
     money = orm.mapped_column(db.Float, nullable = False, default=0)
     username = orm.mapped_column(db.String(50), nullable = False, unique=True)
     
-    # def __init__(self, id, money, username):
-    #     self.id = id
-    #     self.money = money
-    #     self.username = username
+    def __init__(self, money, username):
+        self.money = money
+        self.username = username
         
         
-    # def __repr__(self):
-    #     return f'{self.id}: {self.username} Total Money: ${self.money}'
+    def __repr__(self):
+        return f'{self.id}: {self.username} Total Money: ${self.money}'
 
 #Create the tables
 Base.metadata.create_all(engine)

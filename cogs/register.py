@@ -30,7 +30,7 @@ class Register(commands.Cog):
             try:
                 await ctx.respond('Creating your own Mock Market Portfolio...', ephemeral=True)
                 #Add user to database
-                new_account = BankAccount(username=user.name)
+                new_account = BankAccount(username=user.name, money=float(0))
                 session.add(new_account)
                 session.commit()
                 await ctx.respond('Account created successfully!', ephemeral=True)
