@@ -40,7 +40,7 @@ class Register(commands.Cog):
                 await ctx.edit(content='Account already created! Do /bank to see your balance.')
                 print(err)
             except Exception as err:
-                print('DEBUG: Exception Block Entered')
+                print('Exception Block Entered')
                 session.rollback()
                 await ctx.edit(content="Account creation failed. Please contact a staff member.")
                 print(err)
