@@ -24,8 +24,10 @@ class GetBalance(commands.Cog):
         user = ctx.author
         stmt = db.select(BankAccount)
         row = session.execute(stmt).first()
-        print(row)
-        await ctx.respond('hello')
+        print(row.BankAccount.username)
+        embed = discord.Embed(title=f"Bank Account of {row.BankAccount.username}", description=f'Balance: ${row.BankAccount.money}')
+        embed.set_thumbnail(url=ctx.author.avatar.url)
+        await ctx.respond(embed=embed, ephemeral=True)
         
 def setup(bot):
     bot.add_cog(GetBalance(bot))
